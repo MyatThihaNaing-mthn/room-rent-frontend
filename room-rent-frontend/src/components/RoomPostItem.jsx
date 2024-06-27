@@ -4,18 +4,22 @@ function RoomPostItem({roomPost}){
     console.log(roomPost)
     let imageUrl = roomPost.roomPhotos[0].imageUrl;
     return (
-        <div className="flex p-4 items-center justify-center xs:text-sm border shadow border-teal-950 rounded m-2">
-            <img src={imageUrl} className=" xs:w-8 ws:h-8"></img>
+        <div className='flex flex-col border shadow-md rounded mx-2 mb-2 p-3 cursor-pointer'>
+            <h3 className='self-start'>{roomPost.roomType} @ {roomPost.location}</h3>
+            <div className="flex items-center justify-center xs:text-sm">
+            <div className='roomPostThumbnail xs:w-16 xs:h-16'>
+                <img src={imageUrl} className=" max-h-full w-full object-cover"/>
+            </div>
             <RoomPostSummary roomPost={roomPost}/>
+        </div>
         </div>
     )
 }
 
 function RoomPostSummary({roomPost}){
     return (
-        <div className="flex flex-col flex-grow items-start ml-6">
-           <h3>{roomPost.roomType} @ {roomPost.location}</h3>
-           <p>{roomPost.price} /mth</p>
+        <div className="flex flex-col flex-grow items-start ml-4 font-light">
+           <p>s${roomPost.price} /mo</p>
            <p>{StringUtils.capitalize(roomPost.stationName)} MRT</p>
            <p>{StringUtils.capitalize(roomPost.propertyType)}</p>
            <p className=' text-xxs self-end'>{roomPost.postedAt}</p>

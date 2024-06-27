@@ -1,13 +1,10 @@
+import { RouterProvider} from 'react-router-dom'
 import './App.css'
-import RoomPostsList from './components/RoomPostsList'
-
+import router from './components/Router'
 function App() {
   
   return (
-    <>
-      <h1 className=' text-4xl text-green-600'>Hello React</h1>     
-      <RoomPostsList/>
-    </>
+    <RouterProvider router={router} />
   )
 }
 
