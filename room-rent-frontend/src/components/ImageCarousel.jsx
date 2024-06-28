@@ -5,8 +5,8 @@ function ImageCarousel({images}){
     /*
         take full width and height of parent container
     */
-   const [currentIndex, setCurrentIndex] = useState(2)
-
+   const [currentIndex, setCurrentIndex] = useState(0)
+    console.log(images)
    const handleLeftArrow = () => {
         let newIndex;
         if(currentIndex != 0){
@@ -31,7 +31,7 @@ function ImageCarousel({images}){
     return(
         <div className=" w-full h-full relative group">
             <div
-                style={{ backgroundImage: `url(${images[currentIndex].url})`}}
+                style={{ backgroundImage: `url(${images[currentIndex].imageUrl})`}}
                 className=" w-full h-full bg-center bg-cover rounded-md duration-500">
             </div>
             <BsChevronCompactLeft  size={30}

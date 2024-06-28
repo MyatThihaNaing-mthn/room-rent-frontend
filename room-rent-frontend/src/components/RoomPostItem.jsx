@@ -1,14 +1,12 @@
 import StringUtils from '../utils/StringUtils'
 
 function RoomPostItem({roomPost}){
-    console.log(roomPost)
-    let imageUrl = roomPost.roomPhotos[0].imageUrl;
     return (
         <div className='flex flex-col border shadow-md rounded mx-2 mb-2 p-3 cursor-pointer'>
             <h3 className='self-start'>{roomPost.roomType} @ {roomPost.location}</h3>
             <div className="flex items-center justify-center xs:text-sm">
             <div className='roomPostThumbnail xs:w-16 xs:h-16'>
-                <img src={imageUrl} className=" max-h-full w-full object-cover"/>
+                <img src={roomPost.thumbnailImage} className=" max-h-full w-full object-cover"/>
             </div>
             <RoomPostSummary roomPost={roomPost}/>
         </div>

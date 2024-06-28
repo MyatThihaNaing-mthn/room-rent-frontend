@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import RoomPostItem from "./RoomPostItem";
+import { Link } from "react-router-dom";
 
 
 function RoomPostsList(){
@@ -16,9 +17,11 @@ function RoomPostsList(){
     useEffect(
         ()=>{getRoomPosts();}
     ,[]);
-
+    console.log(roomPosts)
     const roomPostListView = roomPosts.map((roomPost) => (
-        <RoomPostItem roomPost={roomPost} key={roomPost.id}/>
+        <Link to={`/room-post/${roomPost.id}`} key={roomPost.id}>
+            <RoomPostItem roomPost={roomPost}/>
+        </Link>
     ));
     if(isLoading){
         return <h1> Loading....</h1>

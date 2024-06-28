@@ -1,78 +1,47 @@
+import { useParams } from "react-router-dom";
 import AgentCard from "./AgentCard";
 import ImageCarousel from "./ImageCarousel";
+import { useEffect, useState } from "react";
 
+const roomPostDetailsUrl = "http://localhost:8080/api/public/room-post/";
+function RoomPostDetails() {
+    const params = useParams();
 
-function RoomPostDetails({roomPost}) {
-    const images = [
-        {
-            "url": "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
-        },
-        {
-            "url": "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-        },
-        {
-            "url": "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
-        },
-        {
-            "url": "https://images.unsplash.com/photo-1719216323699-79e62fbc6a56?q=80&w=2828&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        }
-    ];
+    const url = roomPostDetailsUrl+params.id;
+    const [roomPostData, setRoomPostData] = useState();
+    const [isLoading, setLoading] = useState(true);
 
-    const mockRoomPost = {
-        "id": 2,
-        "stationName": "Orchard",
-        "price": 1000.0,
-        "roomType": "Master Room",
-        "totalPax": 2,
-        "cookingAllowance": "Cooking Allowed",
-        "sharePub": "share PUB",
-        "airConTime": "Unlimited",
-        "allowVisitor": false,
-        "location": "Orchard",
-        "propertyType": "condominium",
-        "description": "Live in a home away from home. Connect and bond with neighbors of diverse nationalities. Enjoy peerless service by Residence Concierge, Capella Singapore and the dedicated Property Management team, which delivers unobtrusive, meeting and anticipating residents' needs. No request is too small and the most challenging requests are welcomed",
-        "agent": {
-            "id": 1,
-            "username": "tester1",
-            "role": "AGENT",
-            "email": "tester1@test.com",
-            "phoneNumber": "09383733",
-            "profilePhoto": "IMG_1690.JPG",
-            "createdAt": "2024-06-21T12:23:04.403+00:00"
-        },
-        "postedAt": "2024-06-21T12:26:42.587+00:00",
-        "roomPhotos": [
-            {
-                "id": 2,
-                "imageUrl": "https://d16uutppy0f24v.cloudfront.net/about_us.png",
-                "filename": "about_us.png"
-            }
-        ]
-
+    async function getRoomPostDetails(){
+        let roomPostDetails = await fetch(url)
+        const roomPost = await roomPostDetails.json()
+        setRoomPostData(roomPost);
+        console.log(roomPost.roomPhotos)
+        setLoading(false)
     }
 
-    const agent = {
-        "id": 1,
-            "username": "Micheal Lam",
-            "role": "AGENT",
-            "email": "tester1@test.com",
-            "phoneNumber": "09383733",
-            "profilePhoto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcTlHOIDT1fFfYhabUc7o-Pc08bqihLYc5XDKW-xRGFlUQJDs-rDs-IDKKxB1tl_m1wPY&usqp=CAU",
-            "createdAt": "2024-06-21T12:23:04.403+00:00"
+    useEffect(
+        ()=>{getRoomPostDetails();}
+    ,[]);
+
+
+    if(isLoading){
+        return <div>
+            Loading...
+        </div>
     }
     return (
         <div className="w-full h-full flex flex-col">
             <div className=" min-h-80 h-1/2 w-full flex">
-                <ImageCarousel images={images} />
+                <ImageCarousel images={roomPostData.roomPhotos} />
             </div>
             <div className="w-full flex flex-col">
-                <RoomPostDescription roomPost={mockRoomPost}/>
+                <RoomPostDescription roomPost={roomPostData}/>
             </div>
            <div>
-                <AgentCard agent={agent}/>
+                <AgentCard agent={roomPostData.agent}/>
            </div>
         </div>
-    );
+    )
 }
 
 function RoomPostDescription({ roomPost }) {
