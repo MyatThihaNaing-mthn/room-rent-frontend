@@ -6,7 +6,7 @@ function ImageCarousel({images}){
         take full width and height of parent container
     */
    const [currentIndex, setCurrentIndex] = useState(0)
-    console.log(images)
+   
    const handleLeftArrow = () => {
         let newIndex;
         if(currentIndex != 0){
@@ -24,7 +24,6 @@ function ImageCarousel({images}){
         }else{
             newIndex = 0;
         }
-        console.log(newIndex)
         setCurrentIndex(newIndex)
    }
 

@@ -15,13 +15,14 @@ function RoomPostDetails() {
         let roomPostDetails = await fetch(url)
         const roomPost = await roomPostDetails.json()
         setRoomPostData(roomPost);
-        console.log(roomPost.roomPhotos)
         setLoading(false)
     }
 
     useEffect(
-        ()=>{getRoomPostDetails();}
-    ,[]);
+        ()=>{
+            getRoomPostDetails()
+        }
+    ,);
 
 
     if(isLoading){
