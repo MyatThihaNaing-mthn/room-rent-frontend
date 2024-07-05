@@ -2,8 +2,7 @@ import DropDownItem from "./DropDownItem"
 import {convertForUi} from "../../utils/StringUtils"
 
 function SearchFields({searchParams, setFilterParams, filterParams}){
-    console.log(filterParams)
-
+    
     const minPriceChangeHandler = (value) => {
         setFilterParams(
             {

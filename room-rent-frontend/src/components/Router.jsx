@@ -16,6 +16,10 @@ const router = createBrowserRouter(
                     index: true
                 },
                 {
+                    path: '/room-posts/:filter?',
+                    element: <RoomPostsList/>,
+                },
+                {
                     path: '/room-post/:id',
                     element: <RoomPostDetails/>
                 }
@@ -25,3 +29,5 @@ const router = createBrowserRouter(
 )
 
 export default router
+
+// localhost:8080/room-posts?minPrice=1000&location=Orchard&stationName=Orchard

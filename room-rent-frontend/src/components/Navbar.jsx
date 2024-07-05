@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { FiAlignJustify } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
 import FilterScreenForMobile from "./menu/FilterScreenForMobile";
@@ -8,8 +8,19 @@ import FilterButton from "./menu/FilterButton";
 import { Link } from "react-router-dom";
 
 
-function Navbar({ searchParams }) {
+function Navbar() {
     const [isMenuOpen, setMenuOpen] = useState(false)
+    const [searchParams, setSearchParams] = useState();
+
+    const fetchSearchParams = async() => {
+        const response = await fetch("http://localhost:8080/api/public/filter-keywords")
+        const data = await response.json()
+        setSearchParams(data.searchParams)
+    }
+
+    useEffect(
+        ()=>{fetchSearchParams()}
+    ,[])
 
     const menuOpenHandler = () => {
         setMenuOpen(true)

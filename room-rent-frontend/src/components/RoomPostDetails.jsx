@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 
 const roomPostDetailsUrl = "http://localhost:8080/api/public/room-post/";
 function RoomPostDetails() {
-    const params = useParams();
 
+    const params = useParams();
     const url = roomPostDetailsUrl+params.id;
+    
     const [roomPostData, setRoomPostData] = useState();
     const [isLoading, setLoading] = useState(true);
 
@@ -22,7 +23,7 @@ function RoomPostDetails() {
         ()=>{
             getRoomPostDetails()
         }
-    ,);
+    ,[]);
 
 
     if(isLoading){
