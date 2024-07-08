@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import RoomPostsList from "./RoomPostsList";
 import RoomPostDetails from "./RoomPostDetails";
+import { LoginPage } from "./LoginPage";
 
 
 const router = createBrowserRouter(
@@ -22,6 +23,10 @@ const router = createBrowserRouter(
                 {
                     path: '/room-post/:id',
                     element: <RoomPostDetails/>
+                },
+                {
+                    path: '/login',
+                    element: <LoginPage/>
                 }
             ]
         }

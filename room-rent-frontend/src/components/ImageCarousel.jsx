@@ -28,10 +28,10 @@ function ImageCarousel({images}){
    }
 
     return(
-        <div className=" w-full h-full relative group">
+        <div className=" w-full  h-full relative group">
             <div
                 style={{ backgroundImage: `url(${images[currentIndex].imageUrl})`}}
-                className=" w-full h-full bg-center bg-cover rounded-md duration-500">
+                className=" w-full  h-full bg-center bg-cover rounded-md duration-500">
             </div>
             <BsChevronCompactLeft  size={30}
                         className=" hidden group-hover:block absolute top-[50%] left-4 -translate-x-0

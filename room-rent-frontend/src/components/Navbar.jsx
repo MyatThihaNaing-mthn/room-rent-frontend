@@ -6,11 +6,14 @@ import SearchBar from "./menu/SearchBar";
 import SearchFields from "./menu/SearchFields";
 import FilterButton from "./menu/FilterButton";
 import { Link } from "react-router-dom";
+import { useUserContext } from "./UserContext";
 
 
 function Navbar() {
     const [isMenuOpen, setMenuOpen] = useState(false)
     const [searchParams, setSearchParams] = useState();
+
+    const {user} = useUserContext();
 
     const fetchSearchParams = async() => {
         const response = await fetch("http://localhost:8080/api/public/filter-keywords")
@@ -32,14 +35,22 @@ function Navbar() {
 
 
     return <>
-        <header className="w-full h-12 bg-slate-600">
-            <nav>
-                <ul className=" flex justify-between p-4">
-                    <li>
+        <header className="w-full h-14 bg-slate-600">
+            <nav className="flex max-h-full">
+                <ul className=" flex justify-between p-4 w-full">
+                    <li className=" text-white">
                         <Link to="/">Logo</Link>
                     </li>
+                    <li className=" ml-auto mr-2 text-white">
+                        <Link to="/login"> {user? user.username : "Login"} </Link>
+                    </li>
                     <li className=" block sm:hidden">
-                        {isMenuOpen ? <IoCloseOutline size={24} onClick={menuCloseHandler} /> : <FiAlignJustify size={24} onClick={menuOpenHandler} />}
+                        {isMenuOpen ? <IoCloseOutline size={24} 
+                                                onClick={menuCloseHandler}
+                                                className=" text-white" /> : 
+                                    <FiAlignJustify size={24}
+                                                    className=" text-white"
+                                                    onClick={menuOpenHandler} />}
                     </li>
                 </ul>
             </nav>

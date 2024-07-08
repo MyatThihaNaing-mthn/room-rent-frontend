@@ -25,7 +25,7 @@ function FilterScreenForMobile({isOpen,children}){
     return <div className={`w-screen absolute bottom-0 left-0
                               transform duration-1000 flex-col items-center
                               flex bg-slate-600 z-10 p-4 ${open} `}
-                style={{height: 'calc(100vh - 48px)'}}>
+                style={{height: 'calc(100vh - 56px)'}}>
             
             {React.Children.map(children, child => 
                                         React.cloneElement(child, {filterParams, setFilterParams}))}
