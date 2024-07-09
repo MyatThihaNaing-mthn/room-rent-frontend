@@ -3,6 +3,7 @@ import Root from "./Root";
 import RoomPostsList from "./RoomPostsList";
 import RoomPostDetails from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
+import AgentRegister from "./AgentRegister";
 
 
 const router = createBrowserRouter(
@@ -27,6 +28,10 @@ const router = createBrowserRouter(
                 {
                     path: '/login',
                     element: <LoginPage/>
+                },
+                {
+                    path: '/agent/register',
+                    element: <AgentRegister/>
                 }
             ]
         }
