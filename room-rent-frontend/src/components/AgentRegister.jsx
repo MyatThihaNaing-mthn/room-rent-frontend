@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const agentRegisterURL = "http://localhost:8080/api/auth/agent/register"
 export default function AgentRegister() {
@@ -81,41 +81,29 @@ export default function AgentRegister() {
         <div className=" w-full">
             <form onSubmit={submitHandler}
                     className="w-full flex flex-col gap-4 p-6">
-            <ImageUpload profileImage={image}
+            <MeoizedImageUpload profileImage={image}
                 uploadImage={imageChangeHandler}
             />
             <div className=" flex flex-col gap-2">
-                <input type="text"
-                    className=" border shadow-lg p-2 text-sm font-light"
-                    alt="username"
+                <TextInputField type="text"
                     placeholder="Username"
                     id="username"
                     onChange={valueChangeHandler}
-                    required={true}
                 />
-                <input type="password"
-                    className=" border shadow-lg p-2 text-sm font-light"
-                    alt="password"
+                <TextInputField type="password"
                     placeholder="Password"
                     id="password"
                     onChange={valueChangeHandler}
-                    required={true}
                 />
-                <input type="text"
-                    className=" border shadow-lg p-2 text-sm font-light"
-                    alt="email"
+                <TextInputField type="text"
                     placeholder="Email"
                     id="email"
                     onChange={valueChangeHandler}
-                    required={true}
                 />
-                <input type="text"
-                    className=" border shadow-lg p-2 text-sm font-light"
-                    alt="phone number"
+                <TextInputField type="text"
                     placeholder="Phone number"
                     id="phone-number"
                     onChange={valueChangeHandler}
-                    required={true}
                 />
             </div>
             <button type="submit"
@@ -127,14 +115,27 @@ export default function AgentRegister() {
     )
 }
 
+function TextInputField({id, type, onChange, placeholder}){
+   return (
+    <input type={type}
+            className=" border shadow-lg p-2 text-sm font-light"
+            alt={placeholder}
+            placeholder={placeholder}
+            id={id}
+            onChange={onChange}
+            required={true}
+    />
+   )
+}
+
 function ImageUpload({ profileImage, uploadImage }) {
-    let imageURL = profileImage && URL.createObjectURL(profileImage)
+    const imageURL = useMemo(()=>profileImage? URL.createObjectURL(profileImage):undefined, [profileImage])
+    console.log(imageURL)
     const imageUploadHandler = (e) => {
         if (!e.target.files || e.target.files.length == 0) {
             return
         }
         const selectedImage = e.target.files[0]
-        imageURL = URL.createObjectURL(selectedImage)
         uploadImage(selectedImage)
     }
 
@@ -153,3 +154,5 @@ function ImageUpload({ profileImage, uploadImage }) {
         </div>
     )
 }
+
+const MeoizedImageUpload = memo(ImageUpload)
