@@ -14,6 +14,10 @@ function Root(){
     //check accesstoken
     //use refreshToken 
     //if refreshToken expire, assume as public
+
+    console.log("re rendered Root", user)
+
+
     const accessToken = getAccessTokenFromLocalStorage()
     const checkAuthentication = async() => {
         if(accessToken){

@@ -2,9 +2,41 @@ import { useNavigate } from "react-router-dom";
 import { useUserContext } from "./UserContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"
 
 const singInURL = "http://localhost:8080/api/auth/agent/login"
+const agentProfileURL = "http://localhost:8080/api/agent/profile"
+const adminProfileURL = "http://localhost:8080/api/admin/profile"
+
+async function getUserProfile(role, accessToken){
+    try{
+        let response;
+        const config = {
+            headers : {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        }
+        if(role==="agent"){
+            response = await axios.get(agentProfileURL, config)
+        }
+        else if(role==="admin"){
+            response = await axios.get(adminProfileURL, config)
+        }
+        return response.data
+    }catch(error){
+        console.log(error)
+        return null
+    }
+}
+
+function getUserRoleFromToken(token){
+    try{
+        const user = jwtDecode(token).user
+        return user.role.toLowerCase()
+    }catch(error){
+        return null
+    }
+}
 
 export function LoginPage() {
 
@@ -23,23 +55,33 @@ export function LoginPage() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
+    const doLogIn = async() =>{
+        const response = await axios.post(singInURL,
+            {
+                username : username,
+                password : password
+            },{
+                withCredentials : true
+            }
+        )
+        const authResponse = response.data;
+        const accessToken = authResponse.token;
+        localStorage.setItem("accessToken", accessToken)
+        const role = getUserRoleFromToken(accessToken);
+        console.log("Token", accessToken)
+        const currentUser = await getUserProfile(role, accessToken);
+        console.log("User response", currentUser)
+        setUser(currentUser)
+        navigate("/")
+    }
+
     const submitHandler = (e) => {
         e.preventDefault()
-        axios.post(singInURL, {
-            username : username,
-            password : password
-        },{
-            withCredentials: true
-        })
-            .then(function (response) {
-                localStorage.setItem("accessToken", response.data.token)
-                console.log(jwtDecode(response.data.token))
-                setUser(response.data)
-                console.log(user);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        try{
+            doLogIn()
+        }catch(error){
+            console.log(error)
+        }
     }
 
 

@@ -5,25 +5,28 @@ import FilterScreenForMobile from "./menu/FilterScreenForMobile";
 import SearchBar from "./menu/SearchBar";
 import SearchFields from "./menu/SearchFields";
 import FilterButton from "./menu/FilterButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "./UserContext";
+import UserProfileDropDown from "./UserProfileDropDown";
 
 
 function Navbar() {
     const [isMenuOpen, setMenuOpen] = useState(false)
     const [searchParams, setSearchParams] = useState();
+    const [dropdownActive, setDropdownActive] = useState(false);
+    const navigate = useNavigate();
+    const { user } = useUserContext();
 
-    const {user} = useUserContext();
-
-    const fetchSearchParams = async() => {
+    const fetchSearchParams = async () => {
         const response = await fetch("http://localhost:8080/api/public/filter-keywords")
         const data = await response.json()
         setSearchParams(data.searchParams)
     }
 
+
     useEffect(
-        ()=>{fetchSearchParams()}
-    ,[])
+        () => { fetchSearchParams() }
+        , [])
 
     const menuOpenHandler = () => {
         setMenuOpen(true)
@@ -33,6 +36,16 @@ function Navbar() {
         setMenuOpen(false)
     }
 
+    const loginClickHandler = () => {
+        if (user) {
+            setDropdownActive(!dropdownActive);
+        } else {
+            navigate('/login')
+        }
+    }
+
+    console.log("Dropdown", dropdownActive)
+
 
     return <>
         <header className="w-full h-14 bg-slate-600">
@@ -41,24 +54,30 @@ function Navbar() {
                     <li className=" text-white">
                         <Link to="/">Logo</Link>
                     </li>
-                    <li className=" ml-auto mr-2 text-white">
-                        <Link to="/login"> {user? user.username : "Login"} </Link>
+                    <li className=" relative ml-auto mr-2 text-white cursor-pointer"
+                        onClick={loginClickHandler}>
+                        {user ? user.username : "Login"}
+                        {dropdownActive &&
+                            <div className=" absolute w-20 h-20 bg-slate-600 top-full right-0 mt-1 rounded-sm">
+                                <UserProfileDropDown active={setDropdownActive} />
+                            </div>
+                        }
                     </li>
                     <li className=" block sm:hidden">
-                        {isMenuOpen ? <IoCloseOutline size={24} 
-                                                onClick={menuCloseHandler}
-                                                className=" text-white" /> : 
-                                    <FiAlignJustify size={24}
-                                                    className=" text-white"
-                                                    onClick={menuOpenHandler} />}
+                        {isMenuOpen ? <IoCloseOutline size={24}
+                            onClick={menuCloseHandler}
+                            className=" text-white" /> :
+                            <FiAlignJustify size={24}
+                                className=" text-white"
+                                onClick={menuOpenHandler} />}
                     </li>
                 </ul>
             </nav>
         </header>
         <FilterScreenForMobile isOpen={isMenuOpen} >
-            <SearchBar/>
-            <SearchFields searchParams={searchParams}/>
-            <FilterButton closeMenu={setMenuOpen}/>
+            <SearchBar />
+            <SearchFields searchParams={searchParams} />
+            <FilterButton closeMenu={setMenuOpen} />
         </FilterScreenForMobile>
     </>
 }
