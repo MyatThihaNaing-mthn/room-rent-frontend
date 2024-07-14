@@ -27,16 +27,20 @@ function RoomPostsList(){
     if(roomPosts == undefined){
         return <h1> Loading....</h1>
     }else{
-        return <>
+        return <div className=" w-full max-w-full flex items-center justify-center flex-wrap">
             {
+
                 roomPosts.map((roomPost) => (
-                <Link to={`/room-post/${roomPost.id}`} key={roomPost.id}>
-                    <RoomPostItem roomPost={roomPost}/>
-                </Link>
+                    <RoomPostItem roomPost={roomPost} key={roomPost.id}/>
+
             ))
             }
-        </> 
+        </div> 
     }
 }
 
 export default RoomPostsList
+
+{/* <Link to={`/room-post/${roomPost.id}`} key={roomPost.id}>
+                    <RoomPostItem roomPost={roomPost}/>
+                </Link> */}
