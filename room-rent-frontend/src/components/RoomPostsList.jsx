@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import RoomPostItem from "./RoomPostItem";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 const roomPostsURL = "http://localhost:8080/api/public/all-room-posts?pageNo=1&pageSize=8"
@@ -40,7 +40,3 @@ function RoomPostsList(){
 }
 
 export default RoomPostsList
-
-{/* <Link to={`/room-post/${roomPost.id}`} key={roomPost.id}>
-                    <RoomPostItem roomPost={roomPost}/>
-                </Link> */}

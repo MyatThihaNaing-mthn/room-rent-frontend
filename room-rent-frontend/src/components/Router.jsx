@@ -4,6 +4,7 @@ import RoomPostsList from "./RoomPostsList";
 import RoomPostDetails from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
 import AgentRegister from "./AgentRegister";
+import Home from "./Home";
 
 
 const router = createBrowserRouter(
@@ -14,7 +15,7 @@ const router = createBrowserRouter(
             children: [
                 {
                     path: '/',
-                    element: <RoomPostsList/>,
+                    element: <Home/>,
                     index: true
                 },
                 {

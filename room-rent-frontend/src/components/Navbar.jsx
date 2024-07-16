@@ -2,12 +2,11 @@ import { memo, useEffect, useState } from "react";
 import { FiAlignJustify } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
 import FilterScreenForMobile from "./menu/FilterScreenForMobile";
-import SearchBar from "./menu/SearchBar";
-import SearchFields from "./menu/SearchFields";
-import FilterButton from "./menu/FilterButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "./UserContext";
 import UserProfileDropDown from "./UserProfileDropDown";
+import UserMenu from "./menu/UserMenu";
+import AgentMenu from "./menu/AgentMenu";
 
 
 function Navbar() {
@@ -58,7 +57,7 @@ function Navbar() {
                         onClick={loginClickHandler}>
                         {user ? user.username : "Login"}
                         {dropdownActive &&
-                            <div className=" absolute w-20 h-20 bg-slate-600 top-full right-0 mt-1 rounded-sm">
+                            <div className=" absolute w-20 h-20 bg-slate-600 top-full right-0 mt-1 z-10 rounded-sm">
                                 <UserProfileDropDown active={setDropdownActive} />
                             </div>
                         }
@@ -75,9 +74,8 @@ function Navbar() {
             </nav>
         </header>
         <FilterScreenForMobile isOpen={isMenuOpen} >
-            <SearchBar />
-            <SearchFields searchParams={searchParams} />
-            <FilterButton closeMenu={setMenuOpen} />
+            {!user && <UserMenu searchParams={searchParams} setMenuOpen={setMenuOpen} />}
+            {user && <AgentMenu/>}
         </FilterScreenForMobile>
     </>
 }

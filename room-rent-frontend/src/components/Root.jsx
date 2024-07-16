@@ -11,11 +11,6 @@ const agentProfileURL = "http://localhost:8080/api/agent/profile"
 const adminProfileURL = "http://localhost:8080/api/admin/profile"
 function Root(){
     const [user, setUser] = useState()
-    //check accesstoken
-    //use refreshToken 
-    //if refreshToken expire, assume as public
-
-    console.log("re rendered Root", user)
 
 
     const accessToken = getAccessTokenFromLocalStorage()
