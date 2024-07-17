@@ -21,7 +21,7 @@ function FilterButton({closeMenu, filterParams}) {
         navigate({pathname: url, search: filters})
     }
     return <div className="w-full flex-grow flex flex-col justify-end pb-10">
-        <button className=" bg-red-300 w-32 h-14 shadow-sm self-end"
+        <button className=" bg-red-300 w-32 h-14 shadow-sm self-end text-white"
                     onClick={clickHandler}>
             filter
         </button>

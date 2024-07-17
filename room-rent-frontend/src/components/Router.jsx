@@ -5,6 +5,7 @@ import RoomPostDetails from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
 import AgentRegister from "./AgentRegister";
 import Home from "./Home";
+import RoomPostRegister from "./agent/RoomPostRegister";
 
 
 const router = createBrowserRouter(
@@ -33,6 +34,10 @@ const router = createBrowserRouter(
                 {
                     path: '/agent/register',
                     element: <AgentRegister/>
+                },
+                {
+                    path: '/agent/room-post/register',
+                    element: <RoomPostRegister/>
                 }
             ]
         }

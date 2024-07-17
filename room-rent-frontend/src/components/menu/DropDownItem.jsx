@@ -14,10 +14,12 @@ function DropDownItem({name, id, options, filterParams, filterBuilder}){
         setOpen(false)
     }
     return <div className=" w-full flex flex-col p-2 items-center justify-center">
+        {name && <label htmlFor={name}
+            className=" self-start text-white">{name}:</label>}
         <button className=" relative bg-red-300 p-2 w-full h-12 max-h-12 shadow-lg"
                 onClick={()=>{setOpen(!isOpen)}}>
             <div className=" max-w-full w-full overflow-hidden text-ellipsis">
-                <span className="whitespace-nowrap">{name}:{selectedValue}</span>
+                <span className="whitespace-nowrap">{selectedValue}</span>
             </div>
             
             {isOpen &&

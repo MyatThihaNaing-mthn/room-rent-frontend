@@ -59,7 +59,7 @@ function TextInput({fieldName, inputChangeHandler}){
 
     return <div className="flex p-2 ">
         <div className=" flex w-full h-12 bg-red-300 items-center justify-center gap-1">
-            <label>{fieldName}:</label>
+            <label className=" text-white">{fieldName}</label>
             <input type="text"
                 className=" w-16 p-2 h-8 max-h-12 shadow-lg rounded-lg"
                 onChange={onChangeHandler}></input>
