@@ -20,8 +20,8 @@ function RoomPostsList(){
     }
 
     useEffect(
-        ()=>{fetchRoomPosts();}
-    , [search]);
+        ()=>{fetchRoomPosts()}
+    , []);
 
     
     if(roomPosts == undefined){

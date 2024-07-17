@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import DropDownItem from "../menu/DropDownItem";
+import MultiImagePicker from "./MultiImagePicker";
 
 const metaDataURL = "http://localhost:8080/api/agent/room-post"
 export default function RoomPostRegister() {
@@ -36,6 +37,7 @@ export default function RoomPostRegister() {
             <RoomDetailsSection metadata={roomPostRegisterMetadata} roomPost={roomPost} setRoomPost={setRoomPost} />
             <PreferenceSection metadata={roomPostRegisterMetadata} roomPost={roomPost} setRoomPost={setRoomPost}/>
             <LocationSection metadata={roomPostRegisterMetadata} roomPost={roomPost} setRoomPost={setRoomPost} />
+            <MultiImagePicker/>
         </div>
         :
         "Wait..."
