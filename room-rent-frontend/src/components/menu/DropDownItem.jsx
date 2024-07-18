@@ -17,6 +17,7 @@ function DropDownItem({name, id, options, filterParams, filterBuilder}){
         {name && <label htmlFor={name}
             className=" self-start text-white">{name}:</label>}
         <button className=" relative bg-red-300 p-2 w-full h-12 max-h-12 shadow-lg"
+                type="button"
                 onClick={()=>{setOpen(!isOpen)}}>
             <div className=" max-w-full w-full overflow-hidden text-ellipsis">
                 <span className="whitespace-nowrap">{selectedValue}</span>

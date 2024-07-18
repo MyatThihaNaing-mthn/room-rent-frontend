@@ -2,9 +2,19 @@
 import { useEffect, useState } from "react";
 import { BiLayerPlus } from "react-icons/bi";
 import { IoCloseOutline } from "react-icons/io5";
-export default function MultiImagePicker() {
+export default function MultiImagePicker({setRoomPost, roomPost}) {
     const [imageUrls, setImageUrls] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
+
+    const updateRoomPhotosOfRoomPost = (images) =>{
+        setRoomPost(
+            {
+                ...roomPost,
+                roomPhotoFiles : images
+            }
+        )
+    }
+
     const filePickHandler = (e) => {
         if(e.target.files.length > 10){
             return
@@ -21,6 +31,7 @@ export default function MultiImagePicker() {
             setImageFiles(
                 (prev) => [...prev, ...newImages]
             )
+            updateRoomPhotosOfRoomPost(imageFiles)
         }
     }
     const rejectSameFile = (existingImages, newImages) => {
@@ -43,17 +54,25 @@ export default function MultiImagePicker() {
         }, [imageUrls]
     )
 
+    useEffect( () => {
+        updateRoomPhotosOfRoomPost(imageFiles);
+    }, [imageFiles]
+    )
+
     const removeImage = (imageUrl) => {
         const index = imageUrls.indexOf(imageUrl)
         if(index > -1){
-            setImageFiles(prev => prev.filter((_, i) => i !== index))
+            setImageFiles(
+                (prev) => prev.filter((_, i) => i !== index)
+            )
             setImageUrls(prev => prev.filter((_, i) => i !== index))
             URL.revokeObjectURL(imageUrl)
+            updateRoomPhotosOfRoomPost(imageFiles)
         }
     }
 
     return (
-        <div className=" w-full flex flex-col items-center justify-center">
+        <div className=" w-full flex flex-col items-start justify-center">
             <label className="flex flex-col items-center cursor-pointer">
                 <BiLayerPlus size={48}
                     fill="blue" />
