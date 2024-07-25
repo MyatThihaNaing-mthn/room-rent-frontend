@@ -12,7 +12,6 @@ export default function AgentMenu() {
                 <li className=" w-full h-12 bg-white flex items-center justify-center">
                     Create New
                 </li>
-
             </ul>
         </div>
     )

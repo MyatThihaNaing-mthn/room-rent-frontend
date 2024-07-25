@@ -1,17 +1,18 @@
 import { useState } from "react";
 
 
-function DropDownItem({name, id, options, filterParams, filterBuilder}){
+function DropDownItem({name, id, options, filterParams, filterBuilder, onChange}){
     const[isOpen, setOpen] = useState(false);
     const[selectedValue, setSelectedValue] = useState(undefined);
     
     const onOptionClicked = (option) => {
+        onChange(option)
+        setSelectedValue(option)
+        setOpen(false)
         filterBuilder({
             ...filterParams,
             [id]: option
         })
-        setSelectedValue(option)
-        setOpen(false)
     }
     return <div className=" w-full flex flex-col p-2 items-center justify-center">
         {name && <label htmlFor={name}

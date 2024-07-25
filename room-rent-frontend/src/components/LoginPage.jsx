@@ -52,9 +52,9 @@ export function LoginPage() {
         }, [user, navigate]
     )
 
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-
+    const [username, setUsername] = useState()
+    const [password, setPassword] = useState()
+    
     const doLogIn = async() =>{
         const response = await axios.post(singInURL,
             {
@@ -84,6 +84,10 @@ export function LoginPage() {
         }
     }
 
+    const signUpHandler = () => {
+        navigate("/agent/register")
+    }
+
 
     return (
         <div className=" w-full h-full-container flex items-center justify-center">
@@ -105,8 +109,9 @@ export function LoginPage() {
                         className=" w-full h-12 border shadow-lg p-2 text-sm font-bold bg-slate-600 text-white">
                     Log in
                 </button>
-                <button className="w-full h-12 border shadow-lg p-2 text-sm font-bold bg-red-300 text-white">
-                    Sign up?
+                <button className="w-full h-12 border shadow-lg p-2 text-sm font-bold bg-red-300 text-white"
+                    onClick={signUpHandler}>
+                   Sign up?
                 </button>
             </form>
         </div>

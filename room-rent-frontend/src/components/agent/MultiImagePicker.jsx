@@ -2,17 +2,12 @@
 import { useEffect, useState } from "react";
 import { BiLayerPlus } from "react-icons/bi";
 import { IoCloseOutline } from "react-icons/io5";
-export default function MultiImagePicker({setRoomPost, roomPost}) {
+export default function MultiImagePicker({onChange}) {
     const [imageUrls, setImageUrls] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
 
-    const updateRoomPhotosOfRoomPost = (images) =>{
-        setRoomPost(
-            {
-                ...roomPost,
-                roomPhotoFiles : images
-            }
-        )
+    const updateRoomPhotosOfRoomPost = () =>{
+        onChange(imageFiles)
     }
 
     const filePickHandler = (e) => {
@@ -31,7 +26,7 @@ export default function MultiImagePicker({setRoomPost, roomPost}) {
             setImageFiles(
                 (prev) => [...prev, ...newImages]
             )
-            updateRoomPhotosOfRoomPost(imageFiles)
+            updateRoomPhotosOfRoomPost()
         }
     }
     const rejectSameFile = (existingImages, newImages) => {
@@ -39,7 +34,6 @@ export default function MultiImagePicker({setRoomPost, roomPost}) {
         let selectedImages = []
         newImages.forEach(
             (newImage) => {
-                console.log(newImage.name)
                 if(!existingImageNames.has(newImage.name)){
                     selectedImages.push(newImage)
                 }

@@ -6,6 +6,7 @@ import { LoginPage } from "./LoginPage";
 import AgentRegister from "./AgentRegister";
 import Home from "./Home";
 import RoomPostRegister from "./agent/RoomPostRegister";
+import RoomPostRegisterForm from "./agent/RoomPostRegisterForm";
 
 
 const router = createBrowserRouter(
@@ -37,7 +38,7 @@ const router = createBrowserRouter(
                 },
                 {
                     path: '/agent/room-post/register',
-                    element: <RoomPostRegister/>
+                    element: <RoomPostRegisterForm/>
                 }
             ]
         }
