@@ -18,6 +18,7 @@ function FilterButton({closeMenu, filterParams}) {
         closeMenu(false)
         
         let filters = applyFilters(filterParams)
+        console.log(filters)
         navigate({pathname: url, search: filters})
     }
     return <div className="w-full flex-grow flex flex-col justify-end pb-10">

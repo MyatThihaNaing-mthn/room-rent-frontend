@@ -75,7 +75,7 @@ function Navbar() {
         </header>
         <FilterScreenForMobile isOpen={isMenuOpen} >
             {!user && <UserMenu searchParams={searchParams} setMenuOpen={setMenuOpen} />}
-            {user && <AgentMenu/>}
+            {user && <AgentMenu setMenuOpen={setMenuOpen}/>}
         </FilterScreenForMobile>
     </>
 }

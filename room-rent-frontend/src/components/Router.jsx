@@ -5,7 +5,6 @@ import RoomPostDetails from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
 import AgentRegister from "./AgentRegister";
 import Home from "./Home";
-import RoomPostRegister from "./agent/RoomPostRegister";
 import RoomPostRegisterForm from "./agent/RoomPostRegisterForm";
 
 

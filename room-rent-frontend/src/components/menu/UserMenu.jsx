@@ -1,25 +1,21 @@
 import SearchBar from "./SearchBar";
 import SearchFields from "./SearchFields";
 import FilterButton from "./FilterButton";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-export default function UserMenu({searchParams, setMenuOpen}){
-    const [filterParams, setFilterParams] = useState({
-        minPrice : "",
-        maxPrice : "",      
-        location : "",
-        stationName : "",
-        propertyType : "",
-        roomType : "",
-        airConTime : "",
-        sharePub : "",
-        cookingAllowance : "",
-    })
+export default function UserMenu({ searchParams, setMenuOpen }) {
+
+    const {register,
+        control, 
+        watch} = useForm()
+    
+    const filters = watch()
+        
     return (
         <div>
-            <SearchBar />
-            <SearchFields searchParams={searchParams} setFilterParams={setFilterParams} />
-            <FilterButton closeMenu={setMenuOpen} filterParams={filterParams} />
+            <SearchBar register={register} />
+            <SearchFields searchParams={searchParams} control={control} register={register} />
+            <FilterButton closeMenu={setMenuOpen} filterParams={filters} />
         </div>
     )
 }

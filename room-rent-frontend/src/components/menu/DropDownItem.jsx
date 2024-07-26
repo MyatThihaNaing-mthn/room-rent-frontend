@@ -1,22 +1,18 @@
 import { useState } from "react";
 
 
-function DropDownItem({name, id, options, filterParams, filterBuilder, onChange}){
+function DropDownItem({labelName, options, onChange}){
     const[isOpen, setOpen] = useState(false);
     const[selectedValue, setSelectedValue] = useState(undefined);
     
     const onOptionClicked = (option) => {
-        onChange(option)
         setSelectedValue(option)
         setOpen(false)
-        filterBuilder({
-            ...filterParams,
-            [id]: option
-        })
-    }
+        onChange(option)
+        }
     return <div className=" w-full flex flex-col p-2 items-center justify-center">
-        {name && <label htmlFor={name}
-            className=" self-start text-white">{name}:</label>}
+        {labelName && <label htmlFor={labelName}
+            className=" self-start text-white">{labelName}:</label>}
         <button className=" relative bg-red-300 p-2 w-full h-12 max-h-12 shadow-lg"
                 type="button"
                 onClick={()=>{setOpen(!isOpen)}}>

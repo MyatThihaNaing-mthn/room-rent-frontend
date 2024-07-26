@@ -172,11 +172,10 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
                                 control={control}
                                 name="roomType"
                                 rules={{required: "Room Type is required"}}
-                                render={({field}) => (
-                                    <DropDownItem 
-                                        id={"roomType"} 
+                                render={({field:{onChange}}) => (
+                                    <DropDownItem
                                         options={metadata.roomType}
-                                        {...field}
+                                        onChange={onChange}
                                     />
                                 )}
                             />
@@ -192,10 +191,9 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
                     <Controller
                         name="propertyType"
                         control={control}
-                        render={({field}) => (
-                            <DropDownItem 
-                                id={"propertyType"}
-                                {...field}
+                        render={({field:{onChange}}) => (
+                            <DropDownItem
+                                onChange={onChange}
                                 options={metadata.propertyType}
                             />
                         )}
@@ -218,10 +216,9 @@ function PreferenceSection({ metadata, control }) {
                     <Controller
                     control={control}
                     name="cookingAllowance"
-                    render={({field}) => (
-                        <DropDownItem 
-                            id={"cookingAllowance"}
-                            {...field}
+                    render={({field:{onChange}}) => (
+                        <DropDownItem
+                            onChange={onChange}
                             options={metadata.cookingAllowance}
                         />
                     )}
@@ -238,10 +235,9 @@ function PreferenceSection({ metadata, control }) {
                     <Controller
                     name="sharePub"
                     control={control}
-                    render={({field}) => (
-                        <DropDownItem 
-                            id={"sharePub"}
-                            {...field}
+                    render={({field:{onChange}}) => (
+                        <DropDownItem
+                            onChange={onChange}
                             options={metadata.sharePub}
                         />
                     )}
@@ -258,10 +254,9 @@ function PreferenceSection({ metadata, control }) {
                     <Controller
                         control={control}
                         name="airConTime"
-                        render={({field}) => (
-                            <DropDownItem 
-                                id={"airConTime"}
-                                {...field}
+                        render={({field:{onChange}}) => (
+                            <DropDownItem
+                                onChange={onChange}
                                 options={metadata.airConTime}
                             />
                         )}
@@ -278,9 +273,9 @@ function PreferenceSection({ metadata, control }) {
                     <Controller 
                         control={control}
                         name="allowVisitor"
-                        render={({field}) => (
+                        render={({field:{onChange}}) => (
                             <AllowVisitor
-                                {...field}
+                                onChange={onChange}
                             />
                         )}
                     />
@@ -302,11 +297,11 @@ function LocationSection({ metadata, control }) {
                     <Controller
                         control={control}
                         name="stationName"
-                        render={({field}) => (
+                        render={({field:{onChange}}) => (
                             <DropDownItem 
-                                id={"stationName"} 
                                 options={metadata.stationName} 
-                                {...field} />
+                                onChange={onChange} 
+                            />
                         )}
                     />
                 </div>
@@ -320,10 +315,10 @@ function LocationSection({ metadata, control }) {
                     <Controller
                         control={control}
                         name="location"
-                        render={({field}) => (
-                            <DropDownItem id={"location"} 
+                        render={({field: {onChange}}) => (
+                            <DropDownItem
                                     options={metadata.location} 
-                                    {...field}
+                                    onChange={onChange}
                                 />
                         )}
                     />
@@ -366,10 +361,9 @@ function ImagePicker({control}){
             <Controller
                 control={control}
                 name="roomPhotoFiles"
-                render={({field}) => (
+                render={({field:{onChange}}) => (
                     <MultiImagePicker
-                        {...field}
-
+                        onChange={onChange}
                     />
                 )}
             />

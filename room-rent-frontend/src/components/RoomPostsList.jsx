@@ -1,27 +1,33 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import RoomPostItem from "./RoomPostItem";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 
-const roomPostsURL = "http://localhost:8080/api/public/all-room-posts?pageNo=1&pageSize=8"
+const roomPostsURL = "http://localhost:8080/api/public/all-room-posts?pageNo=1&pageSize=12"
 
 function RoomPostsList(){
     const [roomPosts, setRoomPosts] = useState([]);
 
-    const {search} = useLocation()
-    const filters = new URLSearchParams(search)
+    const location = useLocation()
+    const [searchParams] = useSearchParams()
 
-    const fetchRoomPosts = async() =>{
-        let roomPostData = await fetch(roomPostsURL+"&"+filters.toString())
-        console.log(roomPostsURL+"&"+filters.toString())
-        const roomPostResponse = await roomPostData.json()
-        setRoomPosts(roomPostResponse.allRoomPosts)
-    }
+    const fetchRoomPosts = useCallback(async() =>{
+        let roomPostData = await fetch(roomPostsURL+"&"+searchParams.toString())
+        console.log(searchParams.toString())
+        try{
+            const roomPostResponse = await roomPostData.json()
+            console.log(roomPostResponse.allRoomPosts)
+            setRoomPosts(roomPostResponse.allRoomPosts)
+        }catch(error){
+            setRoomPosts([])
+            console.log("error fetching roompost list")
+        }
+    }, [searchParams])
 
     useEffect(
         ()=>{fetchRoomPosts()}
-    , []);
+    , [fetchRoomPosts, location.search]);
 
     
     if(roomPosts == undefined){
