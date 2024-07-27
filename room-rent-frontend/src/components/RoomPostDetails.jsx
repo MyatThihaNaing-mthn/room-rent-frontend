@@ -4,15 +4,16 @@ import ImageCarousel from "./ImageCarousel";
 import { useEffect, useState } from "react";
 
 const roomPostDetailsUrl = "http://localhost:8080/api/public/room-post/";
-function RoomPostDetails() {
+export function RoomPostDetails() {
+
 
     const params = useParams();
-    const url = roomPostDetailsUrl+params.id;
-    
+    const url = roomPostDetailsUrl + params.id;
+
     const [roomPostData, setRoomPostData] = useState();
     const [isLoading, setLoading] = useState(true);
 
-    async function getRoomPostDetails(){
+    async function getRoomPostDetails() {
         let roomPostDetails = await fetch(url)
         const roomPost = await roomPostDetails.json()
         setRoomPostData(roomPost);
@@ -20,13 +21,13 @@ function RoomPostDetails() {
     }
 
     useEffect(
-        ()=>{
+        () => {
             getRoomPostDetails()
         }
-    ,[]);
+        , []);
 
 
-    if(isLoading){
+    if (isLoading) {
         return <div>
             Loading...
         </div>
@@ -37,16 +38,16 @@ function RoomPostDetails() {
                 <ImageCarousel images={roomPostData.roomPhotos} />
             </div>
             <div className="w-full flex flex-col">
-                <RoomPostDescription roomPost={roomPostData}/>
+                <RoomPostDescription roomPost={roomPostData} />
             </div>
-           <div>
-                <AgentCard agent={roomPostData.agent}/>
-           </div>
+            <div>
+                <AgentCard agent={roomPostData.agent} />
+            </div>
         </div>
     )
 }
 
-function RoomPostDescription({ roomPost }) {
+export function RoomPostDescription({ roomPost }) {
     return (
         <div className=" w-full h-full flex flex-col justify-center relative">
             <div className=" text-start p-4 gap-2 flex flex-col justify-center">
@@ -76,13 +77,13 @@ function RoomPostDescription({ roomPost }) {
                     <p className=" p-2 border-b ">PUB:</p>
                     <p className=" p-2 border-b ">{roomPost.sharePub}</p>
                     <p className=" p-2 border-b ">Visitor:</p>
-                    <p className=" p-2 border-b ">{roomPost.allowVisitor? 'Yes' : 'No'}</p>
+                    <p className=" p-2 border-b ">{roomPost.allowVisitor ? 'Yes' : 'No'}</p>
                     <p className=" p-2 border-b ">Nearest Station:</p>
                     <p className=" p-2 border-b ">{roomPost.stationName}</p>
                 </div>
-            </div> 
+            </div>
         </div>
     )
 }
-export default RoomPostDetails;
+
 

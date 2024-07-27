@@ -5,6 +5,7 @@ import { PiBuildingLight as BuildingIcon } from "react-icons/pi";
 import { IoLocationOutline as LocationIcon } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import getTimePassedFromUTC from "../utils/DateUtils";
+import { useUserContext } from "./UserContext";
 
 function RoomPostItem({ roomPost }) {
     return (
@@ -75,13 +76,18 @@ function PropertyType({ propertyType }) {
 }
 
 function DetailButton({ roomPostId }) {
+    const {user} = useUserContext()
     const navigate = useNavigate();
     const detailsBtnHandler = () => {
-        console.log(roomPostId)
-        navigate(`/room-post/${roomPostId}`)
+        if(user && user.role === "AGENT"){
+            navigate(`/agent/room-post/${roomPostId}`)
+        }else{
+            navigate(`/room-post/${roomPostId}`)
+        }
+        
     }
     return <button className=" w-28 h-12 bg-white border-gray-400 transition-colors duration-300
-             border-2 rounded self-end hover:bg-green-400 hover:text-white "
+            border-2 rounded self-end hover:bg-green-400 hover:text-white "
         onClick={detailsBtnHandler}>
         View Room
     </button>

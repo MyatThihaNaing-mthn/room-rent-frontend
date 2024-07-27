@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import RoomPostsList from "./RoomPostsList";
-import RoomPostDetails from "./RoomPostDetails";
+import {RoomPostDetails} from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
 import AgentRegister from "./AgentRegister";
 import Home from "./Home";
 import RoomPostRegisterForm from "./agent/RoomPostRegisterForm";
+import AgentRoomPostDetails from "./AgentRoomPostDetails";
 
 
 const router = createBrowserRouter(
@@ -34,6 +35,10 @@ const router = createBrowserRouter(
                 {
                     path: '/agent/register',
                     element: <AgentRegister/>
+                },
+                {
+                    path: '/agent/room-post/:id',
+                    element: <AgentRoomPostDetails/>
                 },
                 {
                     path: '/agent/room-post/register',
