@@ -17,7 +17,7 @@ function Navbar() {
     const { user } = useUserContext();
 
     const fetchSearchParams = async () => {
-        const response = await fetch("http://localhost:8080/api/public/filter-keywords")
+        const response = await fetch("http://localhost:8080/api/v1/public/filter-keywords")
         const data = await response.json()
         setSearchParams(data.searchParams)
     }

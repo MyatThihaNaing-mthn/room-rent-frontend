@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RoomPostItem from "../RoomPostItem";
 import axios from "axios";
 
-const activeRoomPostsUrl = "http://localhost:8080/api/agent/room-post/active"
+const activeRoomPostsUrl = "http://localhost:8080/api/v1/agent/room-post/active"
 
 const getConfig = () =>{
     const accessToken = localStorage.getItem("accessToken")

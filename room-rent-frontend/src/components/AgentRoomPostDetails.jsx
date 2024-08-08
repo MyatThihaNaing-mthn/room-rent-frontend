@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ImageCarousel from "./ImageCarousel"
 import { RoomPostDescription } from "./RoomPostDetails"
 import { useParams } from "react-router-dom";
-const roomPostDetailsUrl = "http://localhost:8080/api/public/room-post/";
+const roomPostDetailsUrl = "http://localhost:8080/api/v1/public/room-post/";
 export default function AgentRoomPostDetails(){
     const params = useParams()
     const url = roomPostDetailsUrl + params.id;

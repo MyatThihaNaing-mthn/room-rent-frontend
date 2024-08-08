@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const tokenRefreshURL = "http://localhost:8080/api/auth/refresh"
+const tokenRefreshURL = "http://localhost:8080/apis/v1/auth/refresh"
 
 export default async function getJwtToken(){
     let token = localStorage.getItem("accessToken")

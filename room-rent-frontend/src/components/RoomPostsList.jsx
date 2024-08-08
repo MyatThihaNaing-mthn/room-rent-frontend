@@ -4,7 +4,7 @@ import RoomPostItem from "./RoomPostItem";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 
-const roomPostsURL = "http://localhost:8080/api/public/all-room-posts?pageNo=1&pageSize=12"
+const roomPostsURL = "http://localhost:8080/api/v1/public/all-room-posts?pageNo=1&pageSize=12"
 
 function RoomPostsList(){
     const [roomPosts, setRoomPosts] = useState([]);

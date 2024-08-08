@@ -1,7 +1,7 @@
 import axios from "axios";
 import { memo, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const agentRegisterURL = "http://localhost:8080/api/auth/agent/register"
+const agentRegisterURL = "http://localhost:8080/api/auth/v1/agent/register"
 export default function AgentRegister() {
     const [image, setImage] = useState();
     const [agent, setAgent] = useState();

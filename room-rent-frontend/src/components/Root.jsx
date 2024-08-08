@@ -6,9 +6,9 @@ import { UserContext } from "./UserContext"
 import { jwtDecode } from "jwt-decode"
 import axios from "axios"
 
-const tokenRefreshURL = "http://localhost:8080/api/auth/refresh"
-const agentProfileURL = "http://localhost:8080/api/agent/profile"
-const adminProfileURL = "http://localhost:8080/api/admin/profile"
+const tokenRefreshURL = "http://localhost:8080/api/v1auth/refresh"
+const agentProfileURL = "http://localhost:8080/api/v1/agent/profile"
+const adminProfileURL = "http://localhost:8080/api/v1/admin/profile"
 function Root(){
     const [user, setUser] = useState()
 

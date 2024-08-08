@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"
 
-const singInURL = "http://localhost:8080/api/auth/agent/login"
-const agentProfileURL = "http://localhost:8080/api/agent/profile"
-const adminProfileURL = "http://localhost:8080/api/admin/profile"
+const singInURL = "http://localhost:8080/api/v1/auth/agent/login"
+const agentProfileURL = "http://localhost:8080/api/v1/agent/profile"
+const adminProfileURL = "http://localhost:8080/api/v1/admin/profile"
 
 async function getUserProfile(role, accessToken){
     try{

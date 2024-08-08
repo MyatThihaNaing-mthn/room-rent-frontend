@@ -4,17 +4,18 @@ import DropDownItem from "../menu/DropDownItem";
 import MultiImagePicker from "./MultiImagePicker";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import UploadLoading from "../UploadLoading";
 
-const metaDataURL = "http://localhost:8080/api/agent/room-post"
-const roomPostRegisterURL = "http://localhost:8080/api/agent/room-post"
+const metaDataURL = "http://localhost:8080/api/v1/agent/room-post-data"
+const roomPostRegisterURL = "http://localhost:8080/api/v1/agent/room-post"
 export default function RoomPostRegisterForm() {
     const [roomPostRegisterMetadata, setRoomPostRegisterMetadata] = useState();
     const { register, 
             handleSubmit,
-            control, 
-            watch, 
-            formState: { errors, isLoading },
+            control,
+            formState: { errors },
          } = useForm();
+    const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate()
 
     // TODO fix duplicate code for header config
@@ -53,7 +54,7 @@ export default function RoomPostRegisterForm() {
         return formData
     }
     const onSubmit = async (data) => {
-        console.log(data)
+        setLoading(true);
         const accessToken = localStorage.getItem("accessToken")
         const formData = createRoomPostFormData(data)
         const config = {
@@ -63,10 +64,11 @@ export default function RoomPostRegisterForm() {
             }
         }
         try {
-            const response = await axios.post(roomPostRegisterURL, formData, config)
-            console.log(response)
+            await axios.post(roomPostRegisterURL, formData, config)
+            setLoading(false)
             navigate("/")
         } catch (error) {
+            setLoading(false)
             console.log(error)
         }
     }
@@ -76,12 +78,11 @@ export default function RoomPostRegisterForm() {
         []
     )
 
-    const formValues = watch();
-    console.log(formValues)
-
     return (
         roomPostRegisterMetadata ?
-            <form className=" w-full flex flex-col px-4"
+            <div className="w-full flex flex-col">
+                {isLoading && <UploadLoading/>}
+                <form className=" w-full flex flex-col px-4"
                 onSubmit={handleSubmit(onSubmit)}>
                 <h1 className=" text-4xl font-extrabold my-2">
                     Room Rental Registration
@@ -100,6 +101,7 @@ export default function RoomPostRegisterForm() {
                 <ImagePicker control={control}/>
                 <button type="submit" disabled={isLoading}>Create</button>
             </form>
+            </div>
             :
             "Wait..."
     )

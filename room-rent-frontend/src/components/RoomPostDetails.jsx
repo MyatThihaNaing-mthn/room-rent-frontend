@@ -3,7 +3,7 @@ import AgentCard from "./AgentCard";
 import ImageCarousel from "./ImageCarousel";
 import { useEffect, useState } from "react";
 
-const roomPostDetailsUrl = "http://localhost:8080/api/public/room-post/";
+const roomPostDetailsUrl = "http://localhost:8080/api/v1/public/room-post/";
 export function RoomPostDetails() {
 
 

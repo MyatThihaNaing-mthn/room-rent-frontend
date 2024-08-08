@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "./UserContext";
 
-const logOutURL = "http://localhost:8080/api/agent/logout"
+const logOutURL = "http://localhost:8080/api/v1/agent/logout"
 function UserProfileDropDown({ active }) {
 
     const {setUser} = useUserContext();

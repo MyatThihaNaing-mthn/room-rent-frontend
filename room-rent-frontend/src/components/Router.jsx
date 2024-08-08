@@ -3,7 +3,7 @@ import Root from "./Root";
 import RoomPostsList from "./RoomPostsList";
 import {RoomPostDetails} from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
-import AgentRegister from "./AgentRegister";
+import AgentRegister from "./agent/AgentRegister";
 import Home from "./Home";
 import RoomPostRegisterForm from "./agent/RoomPostRegisterForm";
 import AgentRoomPostDetails from "./AgentRoomPostDetails";
