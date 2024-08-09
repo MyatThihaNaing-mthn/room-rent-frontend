@@ -5,8 +5,9 @@ import {RoomPostDetails} from "./RoomPostDetails";
 import { LoginPage } from "./LoginPage";
 import AgentRegister from "./agent/AgentRegister";
 import Home from "./Home";
-import RoomPostRegisterForm from "./agent/RoomPostRegisterForm";
 import AgentRoomPostDetails from "./AgentRoomPostDetails";
+import RoomPostRegister from "./agent/RoomPostRegister";
+import RoomPostEdit from "./agent/RoomPostEdit";
 
 
 const router = createBrowserRouter(
@@ -42,7 +43,11 @@ const router = createBrowserRouter(
                 },
                 {
                     path: '/agent/room-post/register',
-                    element: <RoomPostRegisterForm/>
+                    element: <RoomPostRegister/>
+                },
+                {
+                    path: '/agent/room-post/edit/:id',
+                    element: <RoomPostEdit/>
                 }
             ]
         }

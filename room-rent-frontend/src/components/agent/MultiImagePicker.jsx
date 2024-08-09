@@ -1,10 +1,32 @@
 
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiLayerPlus } from "react-icons/bi";
 import { IoCloseOutline } from "react-icons/io5";
-export default function MultiImagePicker({onChange}) {
+export default function MultiImagePicker({onChange, initialImages=[] }) {
     const [imageUrls, setImageUrls] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
+
+    const loadInitialImages = async() => {
+        console.log(initialImages)
+        if(initialImages.length > 0){
+            try{
+                const images = await Promise.all(
+                    initialImages.map(image => 
+                        fetchImageAsFile(image.imageUrl, image.filename)
+                    )
+                )
+                console.log(images)
+                const imageUrls = images.map(url => URL.createObjectURL(url))
+                console.log(imageUrls)
+                setImageFiles(images)
+                setImageUrls(imageUrls)
+            }catch(error){
+                console.log(error)
+            }
+        }
+    }
+
 
     const updateRoomPhotosOfRoomPost = () =>{
         onChange(imageFiles)
@@ -44,8 +66,9 @@ export default function MultiImagePicker({onChange}) {
 
     useEffect(
         () => {
+            loadInitialImages()
             return () => { imageUrls.forEach(image => URL.revokeObjectURL(image)) }
-        }, [imageUrls]
+        }, []
     )
 
     useEffect( () => {
@@ -81,7 +104,7 @@ export default function MultiImagePicker({onChange}) {
             </label>
             <div className=" flex flex-wrap w-full items-center justify-start gap-1">
                 {imageUrls.length > 0 &&
-                    imageUrls.map(image => <ImageThumbnial key={image}
+                    imageUrls.map(image => <ImageThumbnail key={image}
                         imageHandler={removeImage}
                         imageUrl={image} />)}
             </div>
@@ -89,7 +112,7 @@ export default function MultiImagePicker({onChange}) {
     );
 }
 
-function ImageThumbnial({ imageUrl, imageHandler }) {
+function ImageThumbnail({ imageUrl, imageHandler }) {
 
     return (
         <div className=" relative w-36 h-32">
@@ -102,4 +125,21 @@ function ImageThumbnial({ imageUrl, imageHandler }) {
             </div>
         </div>
     )
+}
+
+async function fetchImageAsFile(imageUrl, filename){
+    try{
+        const response = await axios(
+            {
+                url: imageUrl,
+                method: 'GET',
+                responseType: 'blob'
+            }
+        )
+        const blob = response.data
+        const file = new File([blob], filename, {type: blob.type})
+        return file
+    }catch(error){
+        console.log(error)
+    }
 }

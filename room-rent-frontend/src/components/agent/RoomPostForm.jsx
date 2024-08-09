@@ -8,16 +8,20 @@ import UploadLoading from "../UploadLoading";
 
 const metaDataURL = "http://localhost:8080/api/v1/agent/room-post-data"
 const roomPostRegisterURL = "http://localhost:8080/api/v1/agent/room-post"
-export default function RoomPostRegisterForm() {
+
+export default function RoomPostForm({mode, roomPostId}) {
     const [roomPostRegisterMetadata, setRoomPostRegisterMetadata] = useState();
     const { register, 
             handleSubmit,
             control,
             formState: { errors },
+            reset
          } = useForm();
+    const[initialImages, setInitialImages] = useState();
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate()
-
+    
+    
     // TODO fix duplicate code for header config
 
     const getConfig = () => {
@@ -30,7 +34,19 @@ export default function RoomPostRegisterForm() {
         return config
     }
 
-    const getRoomPostRegisterMetadata = async () => {
+    const fetchRoomPostData = async() => {
+        try{
+            const response = await axios.get(roomPostRegisterURL+`/${roomPostId}`, getConfig());
+            reset(response.data)
+            setInitialImages(response.data.roomPhotos)
+            console.log(response.data)
+            console.log(initialImages)
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    const getRoomPostRegisterMetadata = async() => {
         try {
             const response = await axios.get(metaDataURL, getConfig());
             setRoomPostRegisterMetadata(response.data)
@@ -63,8 +79,16 @@ export default function RoomPostRegisterForm() {
                 "Content-Type": "multipart/form-data"
             }
         }
+       
         try {
-            await axios.post(roomPostRegisterURL, formData, config)
+            let response;
+            if(mode === "register"){
+                response = await axios.post(roomPostRegisterURL, formData, config)
+            }else if(mode === "edit" && roomPostId){
+                const url = roomPostRegisterURL+"/"+roomPostId
+                response = await axios.put(url, formData, config)
+                reset(response.data)
+            }
             setLoading(false)
             navigate("/")
         } catch (error) {
@@ -74,8 +98,13 @@ export default function RoomPostRegisterForm() {
     }
 
     useEffect(
-        () => { getRoomPostRegisterMetadata() },
-        []
+        () => { 
+            getRoomPostRegisterMetadata()
+            if(mode === "edit" && roomPostId){
+                fetchRoomPostData()
+            }
+            },
+        [roomPostId, mode]
     )
 
     return (
@@ -98,7 +127,7 @@ export default function RoomPostRegisterForm() {
                 <LocationSection
                     metadata={roomPostRegisterMetadata}
                     control={control} />
-                <ImagePicker control={control}/>
+                <ImagePicker control={control} initialImages={initialImages}/>
                 <button type="submit" disabled={isLoading}>Create</button>
             </form>
             </div>
@@ -174,10 +203,11 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
                                 control={control}
                                 name="roomType"
                                 rules={{required: "Room Type is required"}}
-                                render={({field:{onChange}}) => (
+                                render={({field:{onChange, value}}) => (
                                     <DropDownItem
                                         options={metadata.roomType}
                                         onChange={onChange}
+                                        value={value}
                                     />
                                 )}
                             />
@@ -193,10 +223,11 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
                     <Controller
                         name="propertyType"
                         control={control}
-                        render={({field:{onChange}}) => (
+                        render={({field:{onChange, value}}) => (
                             <DropDownItem
                                 onChange={onChange}
                                 options={metadata.propertyType}
+                                value={value}
                             />
                         )}
                      />
@@ -218,9 +249,10 @@ function PreferenceSection({ metadata, control }) {
                     <Controller
                     control={control}
                     name="cookingAllowance"
-                    render={({field:{onChange}}) => (
+                    render={({field:{onChange, value}}) => (
                         <DropDownItem
                             onChange={onChange}
+                            value={value}
                             options={metadata.cookingAllowance}
                         />
                     )}
@@ -237,9 +269,10 @@ function PreferenceSection({ metadata, control }) {
                     <Controller
                     name="sharePub"
                     control={control}
-                    render={({field:{onChange}}) => (
+                    render={({field:{onChange, value}}) => (
                         <DropDownItem
                             onChange={onChange}
+                            value={value}
                             options={metadata.sharePub}
                         />
                     )}
@@ -256,9 +289,10 @@ function PreferenceSection({ metadata, control }) {
                     <Controller
                         control={control}
                         name="airConTime"
-                        render={({field:{onChange}}) => (
+                        render={({field:{onChange, value}}) => (
                             <DropDownItem
                                 onChange={onChange}
+                                value={value}
                                 options={metadata.airConTime}
                             />
                         )}
@@ -275,9 +309,10 @@ function PreferenceSection({ metadata, control }) {
                     <Controller 
                         control={control}
                         name="allowVisitor"
-                        render={({field:{onChange}}) => (
+                        render={({field:{onChange, value}}) => (
                             <AllowVisitor
                                 onChange={onChange}
+                                value={value}
                             />
                         )}
                     />
@@ -299,10 +334,11 @@ function LocationSection({ metadata, control }) {
                     <Controller
                         control={control}
                         name="stationName"
-                        render={({field:{onChange}}) => (
+                        render={({field:{onChange, value}}) => (
                             <DropDownItem 
                                 options={metadata.stationName} 
                                 onChange={onChange} 
+                                value={value}
                             />
                         )}
                     />
@@ -317,10 +353,11 @@ function LocationSection({ metadata, control }) {
                     <Controller
                         control={control}
                         name="location"
-                        render={({field: {onChange}}) => (
+                        render={({field: {onChange, value}}) => (
                             <DropDownItem
                                     options={metadata.location} 
                                     onChange={onChange}
+                                    value={value}
                                 />
                         )}
                     />
@@ -330,7 +367,7 @@ function LocationSection({ metadata, control }) {
     )
 }
 
-function AllowVisitor({onChange }) {
+function AllowVisitor({onChange, value}) {
     const onChangeHandler = (e) => {
         const { value } = e.target
         onChange(value === "allow" ? true : false)
@@ -341,6 +378,7 @@ function AllowVisitor({onChange }) {
                 id="allowed"
                 name="allowVisitor"
                 value="allow"
+                defaultChecked={value == true? true : false}
                 onChange={onChangeHandler}
             />
             <label htmlFor="allowed">Allow</label>
@@ -349,6 +387,7 @@ function AllowVisitor({onChange }) {
                 id="notAllowed"
                 name="allowVisitor"
                 value="notAllow"
+                defaultChecked={value == true? false : true}
                 onChange={onChangeHandler}
             />
             <label htmlFor="notAllowed">Not Allow</label>
@@ -357,7 +396,7 @@ function AllowVisitor({onChange }) {
     )
 }
 
-function ImagePicker({control}){
+function ImagePicker({control, initialImages=[]}){
     return (
         <>
             <Controller
@@ -366,6 +405,7 @@ function ImagePicker({control}){
                 render={({field:{onChange}}) => (
                     <MultiImagePicker
                         onChange={onChange}
+                        initialImages={initialImages}
                     />
                 )}
             />

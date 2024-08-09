@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-
-function DropDownItem({labelName, options, onChange}){
+function DropDownItem({labelName, options, onChange, value}){
     const[isOpen, setOpen] = useState(false);
-    const[selectedValue, setSelectedValue] = useState(undefined);
+    const[selectedValue, setSelectedValue] = useState(value);
     
     const onOptionClicked = (option) => {
         setSelectedValue(option)
         setOpen(false)
         onChange(option)
         }
+
+    useEffect(() => {
+            setSelectedValue(value);
+        }, [value]);
+
     return <div className=" w-full flex flex-col p-2 items-center justify-center">
         {labelName && <label htmlFor={labelName}
             className=" self-start text-white">{labelName}:</label>}
