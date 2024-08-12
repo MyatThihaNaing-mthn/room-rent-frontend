@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GoTriangleRight } from "react-icons/go";
 
 function DropDownItem({labelName, options, onChange, value}){
     const[isOpen, setOpen] = useState(false);
@@ -17,11 +18,14 @@ function DropDownItem({labelName, options, onChange, value}){
     return <div className=" w-full flex flex-col p-2 items-center justify-center">
         {labelName && <label htmlFor={labelName}
             className=" self-start text-white">{labelName}:</label>}
-        <button className=" relative bg-red-300 p-2 w-full h-12 max-h-12 shadow-lg"
+        <button className=" relative bg-white p-2 w-full h-12 max-h-12 shadow-lg flex items-center"
                 type="button"
                 onClick={()=>{setOpen(!isOpen)}}>
             <div className=" max-w-full w-full overflow-hidden text-ellipsis">
                 <span className="whitespace-nowrap">{selectedValue}</span>
+            </div>
+            <div className=" ml-auto">
+                <GoTriangleRight size={20} className={`${isOpen ? 'rotate-90' : ''}`}/>
             </div>
             
             {isOpen &&

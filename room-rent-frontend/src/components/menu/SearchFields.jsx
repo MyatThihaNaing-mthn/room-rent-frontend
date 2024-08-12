@@ -43,10 +43,10 @@ function SearchFields({ searchParams, control, register}) {
 function TextInput({ labelName, fieldName, register }) {
 
     return <div className="flex p-2 ">
-        <div className=" flex w-full h-12 bg-red-300 items-center justify-center gap-1">
-            <label className=" text-white">{labelName}</label>
+        <div className=" flex w-full h-12 bg-white items-center justify-center gap-1">
+            <label>{labelName}</label>
             <input type="text"
-                className=" w-16 p-2 h-8 max-h-12 shadow-lg rounded-lg"
+                className=" w-16 p-2 h-8 max-h-12 shadow border-b"
                 {...register(fieldName)}></input>
         </div>
     </div>
