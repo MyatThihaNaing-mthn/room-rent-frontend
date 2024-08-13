@@ -8,6 +8,7 @@ import Home from "./Home";
 import AgentRoomPostDetails from "./AgentRoomPostDetails";
 import RoomPostRegister from "./agent/RoomPostRegister";
 import RoomPostEdit from "./agent/RoomPostEdit";
+import AgentHome from "./agent/AgentHome";
 
 
 const router = createBrowserRouter(
@@ -20,6 +21,10 @@ const router = createBrowserRouter(
                     path: '/',
                     element: <Home/>,
                     index: true
+                },
+                {
+                    path: '/agent',
+                    element: <AgentHome/>
                 },
                 {
                     path: '/room-posts/:filter?',

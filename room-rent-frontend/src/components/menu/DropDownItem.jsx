@@ -19,6 +19,7 @@ function DropDownItem({labelName, options, onChange, value}){
         {labelName && <label htmlFor={labelName}
             className=" self-start text-white">{labelName}:</label>}
         <button className=" relative bg-white p-2 w-full h-12 max-h-12 shadow-lg flex items-center"
+                id={labelName}
                 type="button"
                 onClick={()=>{setOpen(!isOpen)}}>
             <div className=" max-w-full w-full overflow-hidden text-ellipsis">

@@ -142,10 +142,11 @@ function ImageUpload({ profileImage, uploadImage }) {
     return (
         <div className=" relative flex items-center w-32 h-32 border bg-cover bg-center cursor-pointer"
             style={{ backgroundImage: `url(${imageURL})` }}>
-            <label className="w-full text-xs text-black text-center p-1 cursor-pointer hover:text-blue-500">
+            <label htmlFor="agent-profile-photo" className="w-full text-xs text-black text-center p-1 cursor-pointer hover:text-blue-500">
                 {profileImage ? "" : "Upload Image"}
             </label>
             <input type="file"
+                id="agent-profile-photo"
                 className=" absolute w-full h-full top-0 left-0 opacity-0"
                 alt="profile image"
                 placeholder="Upload Profile Photo"

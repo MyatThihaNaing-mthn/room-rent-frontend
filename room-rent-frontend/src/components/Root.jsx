@@ -6,40 +6,38 @@ import { UserContext } from "./UserContext"
 import { jwtDecode } from "jwt-decode"
 import axios from "axios"
 
-const tokenRefreshURL = "http://localhost:8080/api/v1auth/refresh"
+const tokenRefreshURL = "http://localhost:8080/api/v1/auth/refresh"
 const agentProfileURL = "http://localhost:8080/api/v1/agent/profile"
 const adminProfileURL = "http://localhost:8080/api/v1/admin/profile"
 function Root(){
     const [user, setUser] = useState()
+    const [isLoading, setLoading] = useState(true);
+
+    const checkAuthentication = async() => {
+        try {
+            let accessToken = getAccessTokenFromLocalStorage();
+            if(!accessToken){
+                const refreshTokenResponse = await axios.get(tokenRefreshURL, {withCredentials : true})
+                accessToken = refreshTokenResponse.data.token
+                localStorage.setItem("accessToken", accessToken)
+            }
+            const role = getUserRoleFromToken(accessToken)
+            const user = getUserProfile(role, accessToken)
+            setUser(user)
+        }catch(error){
+            console.log("Authentication failed:", error)
+        }finally{
+            setLoading(false)
+        }
+    }
 
 
     const accessToken = getAccessTokenFromLocalStorage()
-    const checkAuthentication = async() => {
-        if(accessToken){
-            //get id from token and retrieve profile data
-            const userID = getUserIdFromToken(accessToken)
-            //fetch data using accessToken
-            const role = getUserRoleFromToken(accessToken)
-            const user = await getUserProfile(role, accessToken)
-            setUser(user)
-            console.log(user)
-        }else{
-            try{
-                const refreshTokenResponse  = await axios.get(tokenRefreshURL, {withCredentials: true})
-                const newAccessToken = refreshTokenResponse.data.token
-                localStorage.setItem("accessToken", newAccessToken)
-                const role = getUserRoleFromToken(newAccessToken)
-                const user = await getUserProfile(role, newAccessToken)
-                setUser(user)
-                console.log(user)
-            }catch(error){
-                console.log(error)
-            }
-        }
-    }
     
     useEffect(
-        ()=>{checkAuthentication();},
+        ()=>{
+            checkAuthentication()
+            },
         []
     )
 

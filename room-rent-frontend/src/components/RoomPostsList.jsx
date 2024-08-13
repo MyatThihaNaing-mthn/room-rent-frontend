@@ -30,7 +30,6 @@ function RoomPostsList() {
             console.log(roomPostData)
             setRoomPosts(roomPostData.allRoomPosts)
             const totalPage = Math.ceil(roomPostData.totalContentSize / roomPostData.pageSize)
-            console.log(totalPage)
             setTotalPage(totalPage)
         } catch (error) {
             console.log("error fetching roompost list")

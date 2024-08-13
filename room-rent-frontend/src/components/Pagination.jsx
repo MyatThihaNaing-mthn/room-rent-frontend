@@ -13,7 +13,7 @@ export default function Pagination({onPageChange, totalPage}){
                 onPageChange={onPageChange}
                 previousLabel="<<"
                 renderOnZeroPageCount={null}
-                activeClassName='bg-violet-400 text-white'
+                activeClassName='bg-blue-600 text-white'
                 containerClassName=' flex items-center justify-center gap-1'
                 pageClassName=' block border border-solid hover:cursor-pointer
                                 w-10 h-10 flex items-center justify-center'           
