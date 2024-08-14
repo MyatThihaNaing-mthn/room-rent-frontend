@@ -33,9 +33,9 @@ function DropDownItem({labelName, options, onChange, value}){
                 <div className=" absolute z-10 top-full left-0 w-full max-h-40 bg-white mt-1 overflow-y-scroll">
                     <ul>
                         <li key="None"
-                            value={undefined}
+                            value={null}
                             className="border py-1 hover:bg-slate-600"
-                            onClick={()=> onOptionClicked(undefined)}>
+                            onClick={()=> onOptionClicked(null)}>
                             None
                         </li>
                         {options && options.map(option =>

@@ -9,20 +9,22 @@ import UploadLoading from "../UploadLoading";
 const metaDataURL = "http://localhost:8080/api/v1/agent/room-post-data"
 const roomPostRegisterURL = "http://localhost:8080/api/v1/agent/room-post"
 
-export default function RoomPostForm({mode, roomPostId}) {
+export default function RoomPostForm({mode, roomPost}) {
     const [roomPostRegisterMetadata, setRoomPostRegisterMetadata] = useState();
     const { register, 
             handleSubmit,
             control,
+            watch,
             formState: { errors },
             reset
          } = useForm();
-    const[initialImages, setInitialImages] = useState();
     const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate()
     
     
     // TODO fix duplicate code for header config
+    const data = watch()
+    console.log(data)
 
     const getConfig = () => {
         const accessToken = localStorage.getItem("accessToken")
@@ -34,17 +36,11 @@ export default function RoomPostForm({mode, roomPostId}) {
         return config
     }
 
-    const fetchRoomPostData = async() => {
-        try{
-            const response = await axios.get(roomPostRegisterURL+`/${roomPostId}`, getConfig());
-            reset(response.data)
-            setInitialImages(response.data.roomPhotos)
-            console.log(response.data)
-            console.log(initialImages)
-        }catch(error){
-            console.log(error)
-        }
+    const showRoomPostDetails = () => {
+        reset(roomPost)
+        console.log(roomPost)
     }
+
 
     const getRoomPostRegisterMetadata = async() => {
         try {
@@ -58,9 +54,9 @@ export default function RoomPostForm({mode, roomPostId}) {
     const createRoomPostFormData = (data) => {
         const formData = new FormData();
         for (const [key, value] of Object.entries(data)) {
-            if (key !== "roomPhotoFiles") {
+            if (key !== "roomPhotoFiles" && value) {
                 formData.append(key, value)
-            } else if (key === "roomPhotoFiles") {
+            } else if (key === "roomPhotoFiles" && value) {
                 for (let i = 0; i < data.roomPhotoFiles.length; i++) {
                     formData.append("roomPhotoFiles", data.roomPhotoFiles[i])
                     console.log(typeof data.roomPhotoFiles[i])
@@ -84,27 +80,29 @@ export default function RoomPostForm({mode, roomPostId}) {
             let response;
             if(mode === "register"){
                 response = await axios.post(roomPostRegisterURL, formData, config)
-            }else if(mode === "edit" && roomPostId){
-                const url = roomPostRegisterURL+"/"+roomPostId
+            }else if(mode === "edit" && roomPost){
+                const url = roomPostRegisterURL+"/"+roomPost.id
                 response = await axios.put(url, formData, config)
                 reset(response.data)
             }
-            setLoading(false)
             navigate("/")
         } catch (error) {
-            setLoading(false)
             console.log(error)
+        }
+        finally{
+            setLoading(false)
         }
     }
 
     useEffect(
         () => { 
             getRoomPostRegisterMetadata()
-            if(mode === "edit" && roomPostId){
-                fetchRoomPostData()
+            if(mode === "edit" && roomPost){
+                showRoomPostDetails()
+                console.log(roomPost)
             }
             },
-        [roomPostId, mode]
+        [mode]
     )
 
     return (
@@ -127,12 +125,31 @@ export default function RoomPostForm({mode, roomPostId}) {
                 <LocationSection
                     metadata={roomPostRegisterMetadata}
                     control={control} />
-                <ImagePicker control={control} initialImages={initialImages}/>
-                <button type="submit" disabled={isLoading}>Create</button>
+                <ImagePicker control={control} initialImages={roomPost? roomPost.roomPhotos : []}/>
+                <RoomPostDetailsButtons isLoading={isLoading} mode={mode}/>
             </form>
             </div>
             :
             "Wait..."
+    )
+}
+
+function RoomPostDetailsButtons({isLoading, mode}){
+    const navigate = useNavigate()
+    return (
+        <div className=" w-full flex justify-between items-center my-8">
+            <button type="button" 
+                disabled={isLoading} 
+                onClick={()=>navigate(-1)}
+                className=" border w-32 h-14 "
+                >Cancel</button>
+            <button type="submit" 
+                    disabled={isLoading}
+                    className=" border w-32 h-14 "
+            >
+                {mode==="edit"? "Update" : "Create"}
+            </button>
+        </div>
     )
 }
 

@@ -1,9 +1,9 @@
 import RoomPostForm from "./RoomPostForm";
 
-export default function RoomPostEdit(){
+export default function RoomPostEdit({roomPost}){
     return (
         <div>
-            <RoomPostForm mode="edit" roomPostId={3}/>
+            <RoomPostForm mode="edit" roomPost={roomPost}/>
         </div>
     )
 }

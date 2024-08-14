@@ -22,7 +22,7 @@ function Root(){
                 localStorage.setItem("accessToken", accessToken)
             }
             const role = getUserRoleFromToken(accessToken)
-            const user = getUserProfile(role, accessToken)
+            const user = await getUserProfile(role, accessToken)
             setUser(user)
         }catch(error){
             console.log("Authentication failed:", error)

@@ -43,7 +43,6 @@ function Navbar() {
         }
     }
 
-    console.log("Dropdown", dropdownActive)
 
 
     return <>
