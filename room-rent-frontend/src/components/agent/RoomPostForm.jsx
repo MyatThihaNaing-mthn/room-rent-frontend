@@ -8,6 +8,7 @@ import UploadLoading from "../UploadLoading";
 
 const metaDataURL = "http://localhost:8080/api/v1/agent/room-post-data"
 const roomPostRegisterURL = "http://localhost:8080/api/v1/agent/room-post"
+const errorSpanClassName = "text-sm text-red-700"
 
 export default function RoomPostForm({mode, roomPost}) {
     const [roomPostRegisterMetadata, setRoomPostRegisterMetadata] = useState();
@@ -121,10 +122,12 @@ export default function RoomPostForm({mode, roomPost}) {
                     control={control} />
                 <PreferenceSection
                     metadata={roomPostRegisterMetadata}
-                    control={control} />
+                    control={control}
+                    errors={errors} />
                 <LocationSection
                     metadata={roomPostRegisterMetadata}
-                    control={control} />
+                    control={control}
+                    errors={errors} />
                 <ImagePicker control={control} initialImages={roomPost? roomPost.roomPhotos : []}/>
                 <RoomPostDetailsButtons isLoading={isLoading} mode={mode}/>
             </form>
@@ -160,7 +163,7 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
         <div className=" w-full flex flex-col items-center justify-center gap-2">
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="address"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Address:
                 </label>
                 <textarea
@@ -173,7 +176,7 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
             </div>
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="description"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Description:
                 </label>
                 <textarea id="description"
@@ -185,7 +188,7 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
             </div>
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="price"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Price
                 </label>
                 <input type="text"
@@ -199,7 +202,7 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
             </div>
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="totalPax"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Total Person
                 </label>
                 <input type="text"
@@ -212,10 +215,14 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
             </div>
             <div className=" flex w-full justify-start items-center">
                         <label htmlFor="roomType"
-                            className=" w-1/3 mb-auto text-left">
+                            className=" w-1/3 text-left self-center">
                             Room Type:
                         </label>
-                        <div className=" w-3/5 flex items-center justify-center">
+                        <div className=" w-3/5 flex flex-col items-center justify-center">
+                            <div className=" max-w-full">
+                                {errors.roomType && <span className={errorSpanClassName}>{errors.roomType.message}</span>}
+                            </div>                
+                            <div className=" w-full">
                             <Controller
                                 control={control}
                                 name="roomType"
@@ -228,17 +235,19 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
                                     />
                                 )}
                             />
-                            {errors.roomType && <span>{errors.roomType.message}</span>}
+                            </div>
                         </div>
                     </div>
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="propertyType"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Property Type:
                 </label>
-                <div className=" w-3/5 flex items-center justify-center">
+                <div className=" w-3/5 flex flex-col items-center justify-center">
+                    {errors.propertyType && <span className={errorSpanClassName}>{errors.propertyType.message}</span>}
                     <Controller
                         name="propertyType"
+                        rules={{required: "Property Type is required"}}
                         control={control}
                         render={({field:{onChange, value}}) => (
                             <DropDownItem
@@ -254,17 +263,19 @@ function RoomDetailsSection({ metadata, onChangeValue,errors, control }) {
     )
 }
 
-function PreferenceSection({ metadata, control }) {
+function PreferenceSection({ metadata, control, errors }) {
     return (
         <div className=" w-full flex flex-col items-center justify-center">
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="cookingAllowance"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Cooking:
                 </label>
                 <div className=" w-3/5">
+                    {errors.cookingAllowance && <span className={errorSpanClassName}>{errors.cookingAllowance.message}</span>}
                     <Controller
                     control={control}
+                    rules={{required: "Cooking allowance is required"}}
                     name="cookingAllowance"
                     render={({field:{onChange, value}}) => (
                         <DropDownItem
@@ -279,11 +290,13 @@ function PreferenceSection({ metadata, control }) {
 
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="sharePub"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     PUB:
                 </label>
                 <div className=" w-3/5">
+                    {errors.sharePub && <span className={errorSpanClassName}>{errors.sharePub.message}</span>}
                     <Controller
+                    rules={{required: "Pub share is required"}}
                     name="sharePub"
                     control={control}
                     render={({field:{onChange, value}}) => (
@@ -299,12 +312,14 @@ function PreferenceSection({ metadata, control }) {
 
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="airConTime"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Air-Con Time:
                 </label>
                 <div className=" w-3/5">
+                    {errors.airConTime && <span className={errorSpanClassName}>{errors.airConTime.message}</span>}
                     <Controller
                         control={control}
+                        rules={{required: "AirCon Time is required"}}
                         name="airConTime"
                         render={({field:{onChange, value}}) => (
                             <DropDownItem
@@ -319,10 +334,11 @@ function PreferenceSection({ metadata, control }) {
 
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="allowVistor"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Visitor:
                 </label>
                 <div className=" w-3/5">
+                    {errors.allowVisitor && <span>{errors.allowVisitor.message}</span>}
                     <Controller 
                         control={control}
                         name="allowVisitor"
@@ -339,18 +355,20 @@ function PreferenceSection({ metadata, control }) {
     )
 }
 
-function LocationSection({ metadata, control }) {
+function LocationSection({ metadata, control, errors }) {
     return (
         <div className=" w-full flex flex-col items-center justify-center">
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="stationName"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Nearest Station:
                 </label>
                 <div className=" w-3/5">
+                    {errors.stationName && <span className={errorSpanClassName}>{errors.stationName.message}</span>}
                     <Controller
+                        rules={{required: "Station name is required"}}
                         control={control}
-                        name="stationName"
+                       name="stationName"
                         render={({field:{onChange, value}}) => (
                             <DropDownItem 
                                 options={metadata.stationName} 
@@ -363,12 +381,14 @@ function LocationSection({ metadata, control }) {
             </div>
             <div className=" flex w-full justify-start items-center">
                 <label htmlFor="location"
-                    className=" w-1/3 mb-auto text-left">
+                    className=" w-1/3 text-left self-center">
                     Location:
                 </label>
                 <div className=" w-3/5">
+                    {errors.location && <span className={errorSpanClassName}>{errors.location.message}</span>}
                     <Controller
                         control={control}
+                        rules={{required: "Location is required"}}
                         name="location"
                         render={({field: {onChange, value}}) => (
                             <DropDownItem
