@@ -10,7 +10,7 @@ const metaDataURL = "http://localhost:8080/api/v1/agent/room-post-data"
 const roomPostRegisterURL = "http://localhost:8080/api/v1/agent/room-post"
 const errorSpanClassName = "text-sm text-red-700"
 
-export default function RoomPostForm({mode, roomPost}) {
+export default function RoomPostForm({mode, roomPost, update}) {
     const [roomPostRegisterMetadata, setRoomPostRegisterMetadata] = useState();
     const { register, 
             handleSubmit,
@@ -25,7 +25,7 @@ export default function RoomPostForm({mode, roomPost}) {
     
     // TODO fix duplicate code for header config
     const data = watch()
-    console.log(data)
+    console.log("form",data)
 
     const getConfig = () => {
         const accessToken = localStorage.getItem("accessToken")
@@ -86,7 +86,11 @@ export default function RoomPostForm({mode, roomPost}) {
                 response = await axios.put(url, formData, config)
                 reset(response.data)
             }
-            navigate("/")
+            if(mode === "register"){
+                navigate("/")
+            }else if(mode === "edit"){
+                update()
+            }
         } catch (error) {
             console.log(error)
         }
@@ -409,6 +413,10 @@ function AllowVisitor({onChange, value}) {
         const { value } = e.target
         onChange(value === "allow" ? true : false)
     }
+
+    useEffect(() => {
+        onChange(false)
+    },[])
     return (
         <div className=" w-full flex p-2 items-center gap-2 justify-center">
             <input type="radio"

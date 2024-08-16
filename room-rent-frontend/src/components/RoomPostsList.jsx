@@ -34,7 +34,7 @@ function RoomPostsList() {
         } catch (error) {
             console.log("error fetching roompost list")
         }
-    }, [searchParams, pageNo])
+    }, [searchParams, url])
 
     useEffect(
         () => { fetchRoomPosts() }

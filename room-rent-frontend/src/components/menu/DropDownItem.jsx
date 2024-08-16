@@ -15,9 +15,9 @@ function DropDownItem({labelName, options, onChange, value}){
             setSelectedValue(value);
         }, [value]);
 
-    return <div className=" w-full flex flex-col p-2 items-center justify-center">
+    return <div className=" w-full flex flex-col p-2 items-center justify-center ">
         {labelName && <label htmlFor={labelName}
-            className=" self-start text-white">{labelName}:</label>}
+            className=" self-start text-white">{labelName}:3</label>}
         <button className=" relative bg-white p-2 w-full h-12 max-h-12 shadow-lg flex items-center"
                 id={labelName}
                 type="button"

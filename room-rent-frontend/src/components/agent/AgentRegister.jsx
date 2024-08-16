@@ -1,10 +1,13 @@
 import axios from "axios";
 import { memo, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const agentRegisterURL = "http://localhost:8080/api/auth/v1/agent/register"
+import UploadLoading from "../UploadLoading";
+
+const agentRegisterURL = "http://localhost:8080/api/v1/auth/agent/register"
 export default function AgentRegister() {
     const [image, setImage] = useState();
     const [agent, setAgent] = useState();
+    const [isLoading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     console.log(agent)
@@ -55,6 +58,7 @@ export default function AgentRegister() {
 
     const submitHandler = async(e) => {
         e.preventDefault()
+        setLoading(true)
         try{
             const formData = new FormData();
             formData.append("username", agent.username)
@@ -69,16 +73,21 @@ export default function AgentRegister() {
                     "Content-Type" : "multipart/form-data"
                 }
             })
+            setLoading(false)
             if(response.status == 201){
                 navigate("/login")
             }
         }catch(error){
             console.log(error)
         }
+        finally{
+            setLoading(false)
+        }
     }
 
     return (
         <div className=" w-full">
+            {isLoading && <UploadLoading/>}
             <form onSubmit={submitHandler}
                     className="w-full flex flex-col gap-4 p-6">
             <MeoizedImageUpload profileImage={image}

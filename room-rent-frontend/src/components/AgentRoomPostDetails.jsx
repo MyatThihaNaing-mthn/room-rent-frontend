@@ -17,6 +17,10 @@ export default function AgentRoomPostDetails() {
         setEdit(true)
     }
 
+    const updateHandler = () => {
+        setEdit(false)
+    }
+
     async function getRoomPostDetails() {
         let roomPostDetails = await fetch(url)
         const roomPost = await roomPostDetails.json()
@@ -28,7 +32,7 @@ export default function AgentRoomPostDetails() {
         () => {
             getRoomPostDetails()
         }
-        , [params.id]);
+        , [params.id, isEdit]);
 
 
     if (isLoading) {
@@ -38,7 +42,7 @@ export default function AgentRoomPostDetails() {
     }
     return (
         <div className="w-full h-full flex flex-col">
-            {isEdit ? <RoomPostEdit roomPost={roomPostData} /> :
+            {isEdit ? <RoomPostEdit roomPost={roomPostData} update={updateHandler} /> :
                 <>
                     <div className=" min-h-80 h-1/2 w-full flex">
                         <ImageCarousel images={roomPostData.roomPhotos} />
