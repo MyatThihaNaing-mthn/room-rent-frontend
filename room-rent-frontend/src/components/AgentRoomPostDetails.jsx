@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import ImageCarousel from "./ImageCarousel"
 import { RoomPostDescription } from "./RoomPostDetails"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RoomPostEdit from "./agent/RoomPostEdit";
+import axios from "axios";
+import { getAuthConfig } from "../utils/ConfigUtils";
 
 const roomPostDetailsUrl = "http://localhost:8080/api/v1/public/room-post/";
+const roomPostArchiveUrl = "http://localhost:8080/api/v1/agent/room-post/archive/";
+const roomPostActivateUrl = "http://localhost:8080/api/v1/agent/room-post/activate/"
 export default function AgentRoomPostDetails() {
 
     const [isEdit, setEdit] = useState(false)
@@ -27,6 +31,7 @@ export default function AgentRoomPostDetails() {
         setRoomPostData(roomPost);
         setLoading(false)
     }
+    console.log(roomPostData)
 
     useEffect(
         () => {
@@ -51,7 +56,7 @@ export default function AgentRoomPostDetails() {
                         <RoomPostDescription roomPost={roomPostData} />
                     </div>
                     <div className=" flex justify-between p-4">
-                        <ArchiveBtn roomPostId={roomPostData.id} />
+                        <ArchiveBtn roomPostId={roomPostData.id} hasArchived={roomPostData.archived}/>
                         <EditBtn editHandler={editHandler} />
                     </div>
                 </>}
@@ -59,15 +64,27 @@ export default function AgentRoomPostDetails() {
     )
 }
 
-function ArchiveBtn({ roomPostId }) {
-    const archiveHandler = async () => {
-        console.log("To archive the roompost", roomPostId)
+function ArchiveBtn({ roomPostId, hasArchived }) {
+    const url = hasArchived ? roomPostActivateUrl + roomPostId : roomPostArchiveUrl + roomPostId
+    const navigate = useNavigate()
+
+    const clickHandler = async () => {
+        const config = await getAuthConfig()
+        console.log(config)
+        try {
+            const response = await axios.put(url, null, config)
+            if (response.status === 201) {
+                navigate("/agent")
+            }
+        } catch (error) {
+            console.log("Error archiving roompost..", error)
+        }
     }
     return (
         <button className="w-28 h-12 bg-white border-gray-400 transition-colors duration-300
              border-2 rounded hover:bg-green-400 hover:text-white"
-            onClick={archiveHandler}>
-            Archive
+            onClick={clickHandler}>
+            {hasArchived ? "Re-Activate" : "Archive"}
         </button>
     )
 }

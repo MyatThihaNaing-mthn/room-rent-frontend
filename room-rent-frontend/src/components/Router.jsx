@@ -10,6 +10,7 @@ import RoomPostRegister from "./agent/RoomPostRegister";
 import RoomPostEdit from "./agent/RoomPostEdit";
 import AgentHome from "./agent/AgentHome";
 import AgentDetails from "./agent/AgentDetails";
+import ArchivedRoomPosts from "./agent/ArchivedRoomPosts";
 
 
 const router = createBrowserRouter(
@@ -58,6 +59,9 @@ const router = createBrowserRouter(
                 {
                     path: '/agent/room-post/edit/:id',
                     element: <RoomPostEdit/>
+                },{
+                    path: '/agent/archived',
+                    element: <ArchivedRoomPosts/>
                 }
             ]
         }

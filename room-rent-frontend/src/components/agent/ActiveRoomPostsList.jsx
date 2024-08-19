@@ -19,7 +19,7 @@ const getConfig = () => {
 export default function ActiveRoomPostsList() {
     const [activeRoomPosts, setActiveRoomPosts] = useState();
     const [pageNo, setPageNo] = useState(1);
-    const [totalPage, setTotalPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
 
     
     const handlePageChange = (e) => {
