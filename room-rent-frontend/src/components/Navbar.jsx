@@ -17,9 +17,13 @@ function Navbar() {
     const { user } = useUserContext();
 
     const fetchSearchParams = async () => {
-        const response = await fetch("http://localhost:8080/api/v1/public/filter-keywords")
+        try{
+            const response = await fetch("http://localhost:8080/api/v1/public/filter-keywords")
         const data = await response.json()
         setSearchParams(data.searchParams)
+        }catch(error){
+            console.log("error fetching search param", error);
+        }
     }
 
 

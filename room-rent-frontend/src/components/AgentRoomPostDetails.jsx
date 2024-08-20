@@ -26,10 +26,16 @@ export default function AgentRoomPostDetails() {
     }
 
     async function getRoomPostDetails() {
-        let roomPostDetails = await fetch(url)
-        const roomPost = await roomPostDetails.json()
-        setRoomPostData(roomPost);
-        setLoading(false)
+        try {
+            // TODO change to agent url
+            let response = await axios.get(url)
+            console.log(response)
+            const roomPost = response.data
+            setRoomPostData(roomPost);
+            setLoading(false)
+        } catch (error) {
+            console.log("error fetching roompost details", error)
+        }
     }
     console.log(roomPostData)
 
@@ -56,7 +62,7 @@ export default function AgentRoomPostDetails() {
                         <RoomPostDescription roomPost={roomPostData} />
                     </div>
                     <div className=" flex justify-between p-4">
-                        <ArchiveBtn roomPostId={roomPostData.id} hasArchived={roomPostData.archived}/>
+                        <ArchiveBtn roomPostId={roomPostData.id} hasArchived={roomPostData.archived} />
                         <EditBtn editHandler={editHandler} />
                     </div>
                 </>}
