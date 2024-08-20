@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import RoomPostItem from "../RoomPostItem";
 import Pagination from "../Pagination";
 
+// TODO externalize constants
 const pageSize = 4;
 const archivedRoomPostsUrl = "http://localhost:8080/api/v1/agent/room-post/archived"
 export default function ArchivedRoomPosts(){
